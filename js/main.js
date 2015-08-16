@@ -70,18 +70,18 @@ var EDU = (function(){
         request.send(null);
     }
     // 顶部提示
-    var pro = document.querySelector(".g-pro");
+    var tips = document.querySelector(".g-tips");
 
-        if(getCookie().noMorePro){
-            pro.style.display = "none";
+        if(getCookie().noMoretips){
+            tips.style.display = "none";
         }
 
-        var noMoreProHandler = function(){
-            setCookie('noMorePro','true',900);
-            pro.style.display = "none";
+        var noMoretipsHandler = function(){
+            setCookie('noMoretips',1,900);
+            tips.style.display = "none";
         }
-        var btnNoMore = document.querySelector(".pro-content-right");
-        eventUtil.addHandler(btnNoMore,'click',noMoreProHandler);
+        var btnNoMore = document.querySelector(".tips-content-right");
+        eventUtil.addHandler(btnNoMore,'click',noMoretipsHandler);
     // 登录表单部分
     var loginForce = (function(){
 
@@ -122,7 +122,7 @@ var EDU = (function(){
         //登录后的回调函数
         var loginCallback = function(req){
             if(req.responseText){
-                setCookie("loginSuc","true",100);
+                setCookie("loginSuc",1,100);
                 forceAPI(forceed);
                 closeLogin();
             alert("登录成功");
@@ -151,7 +151,7 @@ var EDU = (function(){
                 btnForce.firstChild.innerHTML = "√ 已关注 ";
                 btnForce.lastChild.style.display = "inline-block";
                 followNum.innerHTML = "粉丝 46";
-                setCookie("followSuc","true",10);
+                setCookie("followSuc",1,10);
             }else{alert('关注失败')}
         }
 
@@ -165,16 +165,18 @@ var EDU = (function(){
                 btnForce.firstChild.innerHTML = "+ 关注";
                 btnForce.lastChild.style.display = "none";
                 followNum.innerHTML = "粉丝 45";
-                setCookie("followSuc","false",10);
+                setCookie("followSuc",0,10);
             }else{alert('取消关注失败')}
         }
 
         eventUtil.addHandler(btnForce.lastChild,'click',cancelForce);
-        if(getCookie().followSuc!=='false'){
+        if( getCookie().followSuc){
+
             btnForce.classList.add("follow-btn-ed");
             btnForce.firstChild.innerHTML = "√ 已关注 ";
             btnForce.lastChild.style.display = "inline-block";
             followNum.innerHTML = "粉丝 46";
+
         }else{
             btnForce.classList.remove('follow-btn-ed');
             btnForce.firstChild.innerHTML = "+ 关注";
@@ -318,7 +320,20 @@ var EDU = (function(){
             var liNodes = [] , liNode;
             for (var i = 0; i < listObj.list.length; i++) {
                 var price = listObj.list[i].price ? '￥'+parseFloat(listObj.list[i].price):"免费"
-                liNode ='<li class="list-item">'+
+                var index = 20 -i;
+                liNode ='<li class="list-item"'+'style="z-index:'+index+';">'+
+                            '<div class="detail">'+
+                                '<div class="top">'+
+                                    '<img src="'+ listObj.list[i].bigPhotoUrl +'" alt="">'+
+                                    '<div class="content">'+
+                                        '<p class="item-title">'+listObj.list[i].name+'<p>'+
+                                        '<p class="learnerCount">'+listObj.list[i].learnerCount+'</p>'+
+                                        '<p class="maker">发布者：'+listObj.list[i].provider+'</p>'+
+                                        '<p class="kinds">课程分类：'+listObj.list[i].categoryName+'</p>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div class="descript ">'+listObj.list[i].description+'</div>'+
+                            '</div>'+
                             '<img src=' + listObj.list[i].bigPhotoUrl + ' alt=""/>'+
                             '<div class="item-content">'+
                                 '<p class="item-title"><a>'+listObj.list[i].name+'</a></p>'+
@@ -331,7 +346,20 @@ var EDU = (function(){
             }
             var li = liNodes.join(" ");
             ulContainer.innerHTML = li;
+            detailBox();
 
+        }
+        //弹窗
+        var detailBox = function(){
+            var lis = document.querySelectorAll(".course-list li");
+            for (var i = 0; i < lis.length; i++) {
+                lis[i].onmouseenter = function(event){
+                    this.firstElementChild.style.display = "block";
+                }
+                lis[i].onmouseleave = function(event){
+                    this.firstElementChild.style.display = 'none';
+                };
+            }
         }
         //get方法获取数据
         var getCourseList = function(pageNo,type){
@@ -342,41 +370,115 @@ var EDU = (function(){
         designButton.onclick();
 
         //翻页
-        var numButton = document.querySelector(".next  ul");
-        numButton.onclick = function(){
-            var num = parseInt(event.target.textContent);
+        var currentNum = 1;
+        var j = currentNum;
+        var pageChange = function(num,e){
             if (first) {
                 getCourseList(num,10);
             }else{
                 getCourseList(num,20);
             }
-            for (var i = 0; i < this.children.length; i++) {
-                this.children[i].style.color = '#000'
+            for (var i = 0; i < e.target.parentNode.children.length; i++) {
+                e.target.parentNode.children[i].style.color = '#000';
             };
-            event.target.style.color = '#39a030';
+            e.target.style.color = '#39a030';
+            currentNum = num;
 
         }
+        var numButton = document.querySelector(".next  ul");
+        numButton.onclick = function(event){
+            var pageNum = parseInt(event.target.textContent);
+            pageChange(pageNum,event);
+            preShow();
+
+        }
+        numButton.lastElementChild.onclick = function(event){
+            if ( currentNum%8 === 0 ) {
+                for (var i = currentNum + 1,z = 1; z < numButton.children.length-1; i++,z++) {
+                    numButton.children[z].innerHTML = i;
+                }
+                pageChange(currentNum + 1,event);
+                j = 1;
+                event.target.parentNode.children[j].style.color = '#39a030';
+            }else{
+                j = j + 1;
+                pageChange(currentNum + 1,event);
+                event.target.parentNode.children[j].style.color = '#39a030';
+            }
+
+            preShow();
+            event.stopPropagation();
+        }
+        numButton.firstElementChild.onclick = function(event){
+            if ( currentNum%8 === 1) {
+                for (var i = currentNum - 8,z=1; z < numButton.children.length-1; z++,i++) {
+                    numButton.children[z].innerHTML = i;
+                }
+                pageChange(currentNum - 1,event);
+                j = 8;
+                event.target.parentNode.children[j].style.color = '#39a030';
+            }else{
+                j = j - 1;
+                pageChange(currentNum - 1,event);
+                event.target.parentNode.children[j].style.color = '#39a030';
+            }
+
+            preShow();
+            event.stopPropagation();
+        }
+
+        var preShow = function(){
+            if (currentNum===1) {
+                numButton.firstElementChild.style.display = "none";
+            }else{
+                numButton.firstElementChild.style.display = "inline-block";
+            }
+        }
+        if (currentNum===1) {
+                numButton.firstElementChild.style.display = "none";
+                numButton.firstElementChild.nextElementSibling.style.color = '#39a030';
+            }
+
     })()
         //最热排行
     var hotList = (function(){
         var hotListCallback = function(req){
             var listObj = JSON.parse(req.responseText);
-            console.log(listObj);
             var ulContainer = document.querySelector(".hot-item ul");
+            var start = 0;
+            var end =  9;
             var liNodes = [] , liNode;
-            for (var i = 0; i < 10; i++) {
-                liNode = '<li>'+
-                            '<img src=' + listObj[i].bigPhotoUrl + ' alt=""/>'+
-                            '<div class="item-content">'+
-                                '<p class="item-title">'+listObj[i].name+'</p>'+
-                                '<p class="hotcount">'+listObj[i].learnerCount+'</p>'+
-                            '</div>'+
-                            '</li>'
-                liNodes.push(liNode);
-                };
-            var li = liNodes.join(" ");
-            ulContainer.innerHTML = li;
+            var createList = function(start,end){
+                var liNodes = [] , liNode;
+                for (var i=start; i < end; i++) {
+                    liNode = '<li>'+
+                                '<img src=' + listObj[i].bigPhotoUrl + ' alt=""/>'+
+                                '<div class="item-content">'+
+                                    '<p class="item-title">'+listObj[i].name+'</p>'+
+                                    '<p class="hotcount">'+listObj[i].learnerCount+'</p>'+
+                                '</div>'+
+                                '</li>'
+                    liNodes.push(liNode);
+                    }
+                var li = liNodes.join(" ");
+                ulContainer.innerHTML = li;
             }
+            var changeList =  function(){
+
+                if (start < 10 && end < 20) {
+                    createList(start,end);
+                    start = start + 1;
+                    end = end + 1;
+                }else{
+                    start = 0;
+                    end = 9;
+                    createList(start,end);
+                }
+            }
+            changeList();
+            setInterval(changeList,5000);
+        }
+
         var getHotList = function(){
             var url = 'http://study.163.com/webDev/hotcouresByCategory.htm';
             getData(url,{},hotListCallback);
