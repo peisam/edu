@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <title>网易教育产品部</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -23,7 +24,7 @@
                 <div class="logo"><h1><span class="green">EDU</span>网易教育产品部</h1></div>
                 <div class="btn"><span class="follow">+ 关注</span><span class='cancel'> &nbsp;取消</span></div><span class="follow-num">粉丝 45</span>
             </div>
-            <ul class="nav">
+            <ul class="nav ">
                     <li><a href="http://open.163.com/">网易公开课</a></li>
                     <li><a href="http://study.163.com/">云课堂</a></li>
                     <li><a href="http://www.icourse163.org/">中国大学MOOC</a></li>
@@ -35,8 +36,7 @@
     <div class="g-bd">
         <!-- 图片轮播 -->
         <div class="g-mnc1">
-            <div class="sld" style="top:-420px;" >
-                <a href=""><img src="images/banner3.jpg" alt="3"/></a>
+            <div class="sld" style="top:0px;" >
                 <a href="http://open.163.com/"><img src="images/banner1.jpg" alt="1"/></a>
                 <a href="http://study.163.com/"><img src="images/banner2.jpg" alt="2" /></a>
                 <a href="http://www.icourse163.org/"><img src="images/banner3.jpg" alt="3"/></a>
@@ -113,6 +113,7 @@
                     </ul>
                 </div>
             </div>
+            <!-- 侧栏热门课程 -->
             <div class="g-side-hot">
                 <div class="sd1"><h2>机构介绍</h2></div>
                 <div class="sd2"><p>观看下面的视频来了解吧：</p>
@@ -124,7 +125,9 @@
                     </ul>
                 </div>
             </div>
+            <!--  -->
         </div>
+        <!--  -->
     </div>
     <!--  -->
     <div class="g-ft">
@@ -161,6 +164,7 @@
             </li>
         </ul>
     </div>
+    <!-- 登录表单 -->
     <div class="g-log">
         <div class="mask">
         <form  class="fm" name="loginForm">
@@ -175,12 +179,14 @@
                     <input type="password" name="password" id="password" placeholder="密码">
                 </div>
                 <div>
-                    <input id="login" type="button" value="登 录" >
+                    <input class="login" type="button" value="登 录" >
                 </div>
             </fieldset>
         </form>
         </div>
     </div>
+    <!--  -->
+    <!-- 视频介绍 -->
     <div class="g-vedio">
         <div class="mask">
             <div  class="m-video">
@@ -196,6 +202,7 @@
             </div> -->
         </div>
     </div>
+    <!--  -->
     <script src="js/md5.min.js"></script>
     <script src="js/main.js" type="text/javascript"></script>
 </body>
