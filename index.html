@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+    <meta charset="UTF-8" />
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <title>网易教育产品部</title>
     <link rel="stylesheet" href="css/style.css">
@@ -81,11 +81,11 @@
         <!--  -->
         <!-- 图片展示 -->
         <div class="g-mnc3">
-            <div class="pic"><img src="images/work1.jpg" alt="1"></div>
+            <div class="pic left"><img src="images/work1.jpg" alt="1"></div>
             <div class="pic"><img src="images/work2.jpg" alt="2"></div>
             <div class="pic"><img src="images/work3.jpg" alt="3"></div>
             <div class="pic"><img src="images/work4.jpg" alt="4"></div>
-            <div class="pic"><img src="images/work5.jpg" alt="5"></div>
+            <div class="pic right"><img src="images/work5.jpg" alt="5"></div>
         </div>
         <!--  -->
         <!-- 课程 -->
@@ -173,7 +173,7 @@
             <fieldset>
                 <div class="msg"></div>
                 <div>
-                    <input type="text" name="account" id="account"placeholder="账户">
+                    <input type="tel" name="account" id="account"placeholder="账户" required pattern="^0?(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$">
                 </div>
                 <div>
                     <input type="password" name="password" id="password" placeholder="密码">

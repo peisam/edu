@@ -28,19 +28,6 @@ var EDU = (function(){
         document.cookie = cookie;
     }
 
-    var eventUtil = {
-        addHandler: function(element,type,handler){
-            if(element.addEventListener){
-                element.addEventListener(type,handler,false);
-            }else
-            if(element.attachEvent){
-                element.attachEvent("on" + type,handler);
-            }else{
-                element['on' + type] = handler;
-                }
-        },
-    }
-
     // 对传入的对象进行编码并连接
     var encodeFormData = function(data){
         if(!data)return "";
@@ -53,7 +40,7 @@ var EDU = (function(){
         }
         return pairs.join("&");
     }
-
+    console.log(getCookie().followSuc);
     // 向服务器发起请求，这里默认为get方法
     var getData =function(url,data,callback){
         var request = new XMLHttpRequest();
@@ -98,7 +85,7 @@ var EDU = (function(){
             url = 'http://study.163.com/webDev/attention.htm';
 
         //通过判断followSuc的值来确定是否已经关注
-        if(getCookie().followSuc) {
+        if(getCookie().followSuc === 1) {
             oBtnFollow.classList.add("btn-folled");
             oBtnFollow.firstChild.innerHTML = "√ 已关注 ";
             oBtnFollow.lastChild.style.display = "inline-block";
@@ -138,16 +125,20 @@ var EDU = (function(){
 
         //登录后的回调函数，设置loginSuc为1，‘已关注’
         var loginCallback = function(req) {
-            if(req.responseText) {
+            if(parseInt(req.responseText) === 1) {
                 setCookie("loginSuc",1,100);
                 forceAPI(forceed);
                 oBtnCloseLogin.onclick();
                 alert("登录成功");
+            } else {
+                alert('登录失败,请输入正确的账号');
+                oBtnCloseLogin.onclick();
             }
         }
 
         //登录
         oBtnLogin.onclick = function(req) {
+
             var url = 'http://study.163.com/webDev/login.htm',
                 data = getFormData();
             getData(url,data,loginCallback);
@@ -242,7 +233,7 @@ var EDU = (function(){
             timerPlay = setTimeout(function () {
                 nextPic();
                 play();
-            }, 3000);
+            }, 5000);
         }
         play();
         //悬停
@@ -286,36 +277,15 @@ var EDU = (function(){
                 showButton();
              }
          };
-    })()
+    })();
 
     //课程列表
     var courseList = (function(){
-        var designButton = $(".tab1");
-        var langugeButton = $(".tab2");
-        var first = true;
-        designButton.onclick = function(){
-            getCourseList(1,10);
-            langugeButton.style.backgroundColor = '#fff';
-            langugeButton.style.color = "#000";
-            this.style.backgroundColor = '#39a030';
-            this.style.color = "#fff";
-            first = true;
-        }
-
-        langugeButton.onclick = function(){
-            getCourseList(1,20);
-            designButton.style.backgroundColor = '#fff';
-            designButton.style.color = "#000";
-            this.style.backgroundColor = '#39a030';
-            this.style.color = "#fff";
-            first = false;
-        }
-
-        var data;
+        //若屏幕宽度小于1205px则每页返回15个
+        var psize = document.body.clientWidth > 1205 ? 20 : 15,
+            data;
         //请求参数生成
         var urlDataCreate = function(pageNo,type){
-            //若屏幕宽度小于1205px则每页返回15个
-            var psize = document.body.clientWidth > 1205 ? 20 : 15;
             data = {
                 'pageNo' : pageNo,
                 'psize' : psize,
@@ -360,15 +330,17 @@ var EDU = (function(){
         }
         //课程详细弹窗
         var detailBox = function(){
-            var lis = document.querySelectorAll(".m-lst-cour li");
-            for (var i = 0; i < lis.length; i++) {
-                lis[i].onmouseenter = function(event){
-                    this.firstElementChild.style.display = "block";
+            if (psize === 15) {
+                var lis = document.querySelectorAll(".m-lst-cour li");
+                for (var i = 0; i < lis.length; i++) {
+                    lis[i].onmouseenter = function(event){
+                        this.firstElementChild.style.display = "block";
+                    }
+                    lis[i].onmouseleave = function(event){
+                        this.firstElementChild.style.display = 'none';
+                    };
                 }
-                lis[i].onmouseleave = function(event){
-                    this.firstElementChild.style.display = 'none';
-                };
-            }
+            };
         }
         //get方法获取数据
         var getCourseList = function(pageNo,type){
@@ -376,26 +348,30 @@ var EDU = (function(){
             var url = "http://study.163.com/webDev/couresByCategory.htm";
             getData(url,data,dealCourseList);
         }
-        designButton.onclick();//默认显示产品设计课程
+
 
         //翻页
-        var nCurrentNum = 1,
-            j =nCurrentNum;
+        var oDesignButton = $(".tab1"),
+            oLangugeButton = $(".tab2"),
+            bFirst = true,
+            nCurrentNum = 1,
+            j = nCurrentNum;
 
         /*根据变量first判断当前课程类型，
         然后再根据参数num返回对应页面的课程列表
         e为对应点击页面的事件对象*/
         var pageChange = function(num,e){
-            if (first) {
+            if (bFirst) {
                 getCourseList(num,10);
             }else{
                 getCourseList(num,20);
             }
-            for (var i = 0; i < e.target.parentNode.children.length; i++) {
+            // 改变数字颜色
+            for (var i = 1; i < e.target.parentNode.children.length-1; i++) {
                 e.target.parentNode.children[i].style.color = '#000';
             };
             e.target.style.color = '#39a030';
-           nCurrentNum = num;
+            nCurrentNum = num;
 
         }
         var numButton = $(".m-page  ul");
@@ -406,6 +382,8 @@ var EDU = (function(){
             preShow();
 
         };
+
+
 
         /*下一页按钮，若当前页面为显示数字的最大页面，
         则生成新的页面数字，同时跳到下一页*/
@@ -454,6 +432,37 @@ var EDU = (function(){
                 numButton.firstElementChild.style.display = "inline-block";
             }
         }
+
+        //当切换课程类型时，默认显示第一页
+        var tabClick = function() {
+            for (var i = 1 ,len = numButton.children.length-1; i < len; i++) {
+                numButton.children[i].style.color = '#000';
+            };
+            nCurrentNum = 1;
+            j = 1;
+            preShow();
+            numButton.children[1].style.color = '#39a030';
+        }
+        oDesignButton.onclick = function(){
+            getCourseList(1,10);
+            oLangugeButton.style.backgroundColor = '#fff';
+            oLangugeButton.style.color = "#000";
+            this.style.backgroundColor = '#39a030';
+            this.style.color = "#fff";
+            tabClick();
+            bFirst = true;
+        }
+        oDesignButton.onclick();//默认显示产品设计课程
+
+        oLangugeButton.onclick = function(){
+            getCourseList(1,20);
+            oDesignButton.style.backgroundColor = '#fff';
+            oDesignButton.style.color = "#000";
+            this.style.backgroundColor = '#39a030';
+            this.style.color = "#fff";
+            tabClick();
+            bFirst = false;
+        }
         if (nCurrentNum===1) {
                 numButton.firstElementChild.style.display = "none";
                 numButton.firstElementChild.nextElementSibling.style.color = '#39a030';
@@ -468,6 +477,8 @@ var EDU = (function(){
                 oUlContainer = $(".sd4 ul"),
                 nStart = 0,
                 nEnd =  9;
+            /*get方法返回20个课程，nStart,nEnd分别表示
+            显示从第nStart个到第nEnd个的课程*/
             var createList = function(nStart,nEnd){
                 var aLiNodes = [] , sLiNode;
                 for (var i=nStart; i < nEnd; i++) {

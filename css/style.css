@@ -8,7 +8,7 @@ a,button{cursor:pointer;}
 h1,h2,h3,h4,h5,h6{font-weight:bold;}
 a,a:hover{text-decoration:none;}
 body,input,button,legend{font:12px/1.14 arial,\5b8b\4f53;color:#333;outline:0;}
-body{background:#fff;}
+body{background:#fff;min-width: 999px;}
 a,a:hover{color:#333;}
 body{background-color: #f8f8f8}
 .mask{position: fixed;top: 0;left: 0;z-index: 999;width: 100%;height: 100%;background:rgba(0,0,0,0.6) ;}
@@ -20,7 +20,7 @@ body{background-color: #f8f8f8}
 .g-mnc2{height: 290px;background-color: #f8f8f8}
 .g-mnc3{display: block; height: 220px;}
 .g-mnc4{position: relative;width: 77%;margin: 0 auto; margin-top: 60px;}
-.g-ft{position: absolute;top: 2560px; height: 210px;width:100%;background-color: #2c3339;color: #b7b8b9;font-size: 16px;}
+.g-ft{position: absolute;top: 2620px; height: 210px;width:100%;background-color: #2c3339;color: #b7b8b9;font-size: 16px;}
 /*顶部提示*/
 .m-tips{width: 75%;margin: 0 auto;line-height: 36px;}
 .tips{float: left;}
@@ -51,9 +51,7 @@ body{background-color: #f8f8f8}
 .m-lst{width: 75%;margin: 0 auto; }
 .m-lst ul{float: left;}
 .m-lst li{display: inline-block;width: 30%;margin-left: 20px;}
-.m-lst .open{background: url(../images/mooc.png)  20px 50px no-repeat; }
-.m-lst .learn{background: url(../images/mooc.png)  20px 50px no-repeat; }
-.m-lst .mooc{background: url(../images/mooc.png)  20px 50px no-repeat; }
+.m-lst .open,.learn,.mooc {background: url(../images/mooc.png)  20px 50px no-repeat; }
 .m-lst .detail{margin-top: 50px;margin-left: 120px; font-size: 14px;}
 .m-lst .detail h3{font-size: 22px;}
 .m-lst .detail p{margin-bottom: 30px;margin-top: 21px;color: #666666}
@@ -72,12 +70,7 @@ body{background-color: #f8f8f8}
 .m-lst-cour li:hover{box-shadow: 1px 2px 2px 2px #d4d3d3;}
 .m-lst-cour li:hover a{color: #39a030}
 .item{display: inline-block;z-index: 1; width: 23%;height: 230px;margin-right:8px;
-    margin-bottom: 20px;border:1px solid #fff;box-shadow: 1px 2px 2px 2px #f1f1f1;
-
-
-
- }
-
+    margin-bottom: 20px;border:1px solid #fff;box-shadow: 1px 1px #f1f1f1;}
 .item-content{margin-top: 6px;z-index: 1;}
 .item-content p{margin-top: 10px;margin-left: 5px;z-index: 1;}
 .item-title{overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 98%}
@@ -85,9 +78,8 @@ body{background-color: #f8f8f8}
 .learnerCount{display: inline-block; border: 1px solid #a8a8a8;border-radius: 3px;padding: 3px 3px 3px 12px;margin-left: 5px; color: #a8a8a8;background: url(../images/count.png) 3px 3px no-repeat;text-align: right;}
 .price{color: red}
 /*弹窗*/
-.item .detail{position: absolute;display: none;top: -5px;left: -5px;height: 245px;
+.item .detail{position: absolute;display: none;left: 102%;height: 245px;
     z-index: 9999;box-shadow: 1px 1px 2px 1px #c1c0c0;background-color: #f8f8f8;width: 209.5%;}
-
 .item .detail  .top{background-color: #fff;width: 100;height: 60%;}
 .item .detail img {float: left;padding-left: 5px;padding-top: 5px;height: 86.5%;width: 47.7%;}
 .item .detail .content{float: left;text-indent: 20px;display: inline-block;}
@@ -95,10 +87,7 @@ body{background-color: #f8f8f8}
 .item .detail .content p{margin: 10px 0}
 .item .detail .content .learnerCount {margin-left: 20px;text-indent: 5px;}
 .item .detail  .descript{height: 30%; padding: 10px;font: 14px/16px "微软雅黑";overflow: auto;}
-/*响应式解决方案*/
-@media (max-width: 1205px) {
-    .item{width: 30%;}
-}
+
 /*分页*/
 .m-page{position: absolute;right: 24px;top: 1410px;height: 20px;}
 .m-page ul{float: left;}
@@ -107,12 +96,12 @@ body{background-color: #f8f8f8}
 .m-page .num{padding: 0 6px;}
 .m-page .pre{background: url(../images/pre.png) 0px 0px no-repeat;cursor: pointer;}
 .m-page .nex{background: url(../images/next.png) 0px 0px no-repeat;margin-right: 0;cursor: pointer;}
-
+/*机构介绍*/
 .sd1{position: absolute;top: 0;right: 0;width: 20%;height: 50px;vertical-align: middle; background-color: #ffffff;border:1px solid #ecebeb;}
 .sd1 h2{margin: 15px 15px;font-size: 20px;}
 .sd2{position: absolute;top: 50px;right: 0;width: 20%;height: 180px; border:1px solid #ecebeb;background: url(../images/intro.png) 15px 50px no-repeat;background-color: #ffffff;}
 .sd2 p{margin: 20px 15px 10px ;font-size: 14px;}
-
+/*热门排行*/
 .sd3{position: absolute;top: 250px;right: 0;width: 20%; height: 50px;background-color: #ffffff;border:1px solid #ecebeb;}
 .sd3 h3{margin: 15px 15px;font-size: 18px;}
 .sd4{position: absolute;top: 300px;right: 0;width: 20%; background-color: #ffffff;border:1px solid #ecebeb;}
@@ -131,7 +120,7 @@ body{background-color: #f8f8f8}
 .link a{color: #b7b8b9}
 .link a:hover{text-decoration: underline};
 .us{background: url(../images/weibo.png) 3px 10px no-repeat;}
-
+/*登录框*/
 .g-log{display: none;}
 .fm{width: 380px;height: 280px;margin:120px auto;background-color: #ffffff;}
 .fm .close{float: right;height: 20px;width: 30px; background: url(../images/close-icon.png) right 10px  top 10px no-repeat;}
@@ -141,10 +130,22 @@ body{background-color: #f8f8f8}
 .fm input[value]{width: 100%;height: 40px;margin-top: 10px;font-size: 18px;border:2px solid #d5e3da; border-top: none;border-left: none; background-color: #1ea73f;color: #fff}
 .clear:after{display:block;visibility:hidden;clear:left;height:0;overflow:hidden;content:'.';}
 .clear{zoom:1;}
-
+/*视频播放*/
 .g-vedio{display: none;}
 .m-video{position: absolute;display: block; width: 900px;height:550px; margin-top: 80px;bottom: 50px; background-color: #fff; left:16%;  }
 .m-video h3{margin-left: 20px;font-size: 25px;margin-top: 20px;margin-bottom: 10px}
 video{margin-left: 20px;}
 .m-video .close{float: right;height: 20px;width: 30px; background: url(../images/close-icon.png) right 10px  top 10px no-repeat;}
+
+/*响应式解决方案*/
+@media (max-width: 1205px) {
+    .g-main-course{width: 76%}
+    .nav{display: none;}
+    .sd1,.sd2,.sd3,.sd4{width: 26%}
+    .item{width: 30%;}
+    .m-video{left: 5%;bottom: 190px;}
+    .pic{width: 24%}
+    .left,.right{width: 13%}
+
+}
 
