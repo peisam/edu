@@ -132,7 +132,7 @@ body{background-color: #f8f8f8}
 .clear{zoom:1;}
 /*视频播放*/
 .g-vedio{display: none;}
-.m-video{position: absolute;display: block; width: 900px;height:550px; margin-top: 80px;bottom: 50px; background-color: #fff; left:16%;  }
+.m-video{position: absolute;display: block; width: 900px;height:550px; margin-top: 80px;bottom: 30px; background-color: #fff; left:12%;  }
 .m-video h3{margin-left: 20px;font-size: 25px;margin-top: 20px;margin-bottom: 10px}
 video{margin-left: 20px;}
 .m-video .close{float: right;height: 20px;width: 30px; background: url(../images/close-icon.png) right 10px  top 10px no-repeat;}
